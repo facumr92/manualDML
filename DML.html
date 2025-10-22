@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comandos DML en MySQL - Relación N a N</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #1a237e;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+      background-color: #fff;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th {
+      background-color: #1a237e;
+      color: white;
+      padding: 10px;
+    }
+    td {
+      padding: 10px;
+    }
+    pre {
+      background-color: #263238;
+      color: #e0e0e0;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📘 Comandos DML en SQL – </h1>
+
+  <section>
+    <p>
+      En SQL, los comandos <b>DML (Data Manipulation Language)</b> permiten manipular los datos dentro de las tablas.
+      Los principales comandos DML son: <b>INSERT</b>, <b>SELECT</b>, <b>UPDATE</b> y <b>DELETE</b>.
+      Las siglas corresponden al CRUD de CREATE - READ - UPDATE - DELETE
+    </p>
+  </section>
+
+  <section>
+    <h2>📖 Teoría de los comandos DML</h2>
+    <table>
+      <tr><th>Comando</th><th>Función</th><th>Ejemplo básico</th></tr>
+      <tr><td><b>SELECT</b></td><td>Consulta y muestra datos de una tabla.</td><td><code>SELECT * FROM Estudiantes;</code></td></tr>
+      <tr><td><b>INSERT</b></td><td>Agrega registros a una tabla.</td><td><code>INSERT INTO Estudiantes (Nombre, Edad) VALUES ('Ana', 22);</code></td></tr>
+      <tr><td><b>UPDATE</b></td><td>Modifica registros existentes.</td><td><code>UPDATE Estudiantes SET Edad = 23 WHERE Nombre = 'Ana';</code></td></tr>
+      <tr><td><b>DELETE</b></td><td>Elimina registros existentes.</td><td><code>DELETE FROM Estudiantes WHERE Nombre = 'Ana';</code></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>🔗 Ejemplo Práctico – Relación N a N (Estudiantes, Cursos e Inscripciones)</h2>
+    <p>
+      Un estudiante puede inscribirse en varios cursos y un curso puede tener varios estudiantes.
+      Para representar esta relación N a N en MySQL se crean tres tablas:
+      <b>Estudiantes</b>, <b>Cursos</b> y <b>Inscripciones</b> (tabla intermedia).
+    </p>
+
+    <h3>1️⃣ Creación de las tablas</h3>
+    <pre><code>CREATE TABLE Estudiantes (
+    id_estudiante INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50),
+    edad INT,
+    email VARCHAR(30), 
+    pais VARCHAR(40),
+    calle VARCHAR(40),
+    numero INT
+);
+
+CREATE TABLE Cursos(...
+);
+
+CREATE TABLE Inscripciones ( ....
+ 
+);
+</code></pre>
+
+    <h3>2️⃣ Inserción de datos (INSERT)</h3>
+    <pre><code>INSERT INTO Estudiantes (nombre, edad) VALUES
+('Ana', 22, ....),
+('Carlos', 24), ....,
+('Lucía', 21),.....;
+
+INSERT INTO Cursos (...);
+
+INSERT INTO Inscripciones (......);</code></pre>
+
+    <h3>3️⃣ Consultas básicas (SELECT, UPDATE, DELETE)</h3>
+    <pre><code>-- Mostrar todos los estudiantes y sus cursos
+SELECT e.*
+FROM Estudiantes e
+
+
+---Mostrar todos los id de estudiantes que se llaman Juan 
+SELECT e.id_est
+From Estudiantes e
+WHERE e.nombre = "Juan";
+
+
+---Mostrar los distintos paises de todos los estudiantes(una sola vez)
+SELECT DISTINCT pais FROM Estudiantes;
+
+---Mostrar los nombres de los estudiantes que estan inscriptos en algun curso
+
+SELECT e.nombre
+FROM Estudiantes e, Inscripciones i
+WHERE e.id_estudiante = i.id_estudiante;
+
+Puede usarse la clausula JOIN también....
+SELECT e.nombre
+FROM Estudiantes e
+INNER JOIN Inscripciones i ON e.id_estudiante = i.id_estudiante;
+
+</code></pre>
+<pre><code>
+
+-- Actualizar el nombre de un curso
+UPDATE Cursos SET nombre_curso = 'SQL Intermedio' WHERE id_curso = 1;
+
+-- Eliminar una inscripción
+DELETE FROM Inscripciones WHERE id_estudiante = 2 AND id_curso = 1;
+
+-- Mostrar estudiantes mayores de 22 años
+SELECT nombre, edad FROM Estudiantes WHERE edad > 22;</code></pre>
+  </section>
+</body>
+</html>
